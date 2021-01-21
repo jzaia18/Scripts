@@ -1,0 +1,12 @@
+#! /usr/bin/bash
+
+if [ -f /tmp/webcam_disable.lock ];
+then
+    echo "Enabling webcam on USB $1";
+    echo "$1" | tee /sys/bus/usb/drivers/usb/bind;
+    rm /tmp/webcam_disable.lock;
+else
+    echo "Disabling webcam on USB $1";
+    echo "$1" | tee /sys/bus/usb/drivers/usb/unbind;
+    touch /tmp/webcam_disable.lock;
+fi
